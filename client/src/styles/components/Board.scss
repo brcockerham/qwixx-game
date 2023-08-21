@@ -1,0 +1,46 @@
+.Board {
+  .PointsContainer, .PenaltyContainer {
+    display: flex;
+    align-items: center;
+  
+    .ScoreBox, .PenaltyBox, .EmptyBox {
+      cursor: pointer;
+      user-select: none;
+      align-items: center;
+      justify-content: center;
+      opacity: .8;
+      border-radius: 50%;
+      margin: 8px 4px;
+      font-size: x-large;
+      flex: 1 1 0;
+      display: flex;
+      background-color: white;
+
+      &.true {
+        color: black;
+      }
+
+      &::before {
+        content: '';
+        display: block;
+        padding-top: 100%;
+      }
+    }
+
+    .EmptyBox {
+      opacity: 0;
+      cursor: unset;
+    }
+  }
+
+  .PenaltyContainer {
+    border-bottom: 1px solid black;
+    background-color: lightgray;
+
+    .PenaltyBox {
+      border: 1px solid black;
+      border-radius: 0;
+    }
+  }
+}
+

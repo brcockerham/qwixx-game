@@ -1,0 +1,13 @@
+.Actions {
+  display: flex;
+  flex-direction: column;
+  height: 50px;
+  margin-top: 16px;
+
+  button {
+    text-transform: uppercase;
+    flex-grow: 1;
+    font-size: x-large;
+    margin: 4px;
+  }
+}

@@ -1,0 +1,59 @@
+.Players {
+  display: flex;
+  flex-direction: column;
+
+  .Player {
+    display: flex;
+    margin: 4px;
+    font-size: large;
+    
+    .player-inner {
+      display: flex;
+      align-items: center;
+      opacity: 0.8;
+      height: 100%;
+      flex-grow: 1;
+      background-color: white;
+      color: lightgray;
+      border: 4px solid transparent;
+
+      .pending-lock {
+        &.r {
+          animation: lock_r .5s infinite alternate;
+        }
+        &.y {
+          animation: lock_y .5s infinite alternate;
+        }
+        &.g {
+          animation: lock_g .5s infinite alternate;
+        }
+        &.b {
+          animation: lock_b .5s infinite alternate;
+        }
+       }
+    }
+
+    &:not(:last-child) {
+      margin-bottom: 0;
+    }
+
+    font-weight: 800;
+  }
+}
+
+@keyframes lock_r {
+  from { color: lightgray; }
+  to { color: #e7153b; }
+}
+@keyframes lock_y {
+  from { color: lightgray; }
+  to { color: #ffc400; }
+}
+@keyframes lock_g {
+  from { color: lightgray; }
+  to { color: #3cac2c; }
+}
+@keyframes lock_b {
+  from { color: lightgray; }
+  to { color: #1a61b3; }
+}
