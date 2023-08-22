@@ -1,6 +1,6 @@
 import { Chance } from 'chance'
-import express from 'express'
-import path from 'path'
+import * as express from 'express'
+import * as path from 'path'
 import { WebSocket, Server } from 'ws'
 import { CronJob } from 'cron'
 
@@ -150,10 +150,10 @@ wss.on('connection', (connection, req) => {
 
 const app = express()
 
-app.use(express.static(path.join(__dirname, 'build')))
+app.use(express.static(path.join(__dirname, 'client', 'build')))
 
 app.get('/*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'build', 'index.html'))
+  res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'))
 })
 
 const server = app.listen(9000)
