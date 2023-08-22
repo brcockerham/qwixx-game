@@ -12,11 +12,6 @@ const isRollDisabledAtom = selector({
     const isGameStarted = get(isGameStartedAtom)
     const isGameOver = get(isGameOverAtom)
 
-    console.log('isActivePlayer', isActivePlayer)
-    console.log('turnStatus', turnStatus)
-    console.log('isGameStarted', isGameStarted)
-    console.log('isGameOver', isGameOver)
-
     return isGameOver || !isActivePlayer || !isGameStarted || turnStatus !== TurnStatus.WAIT
   }
 })
