@@ -6,6 +6,7 @@
     display: flex;
     margin: 4px;
     font-size: 14px;
+    border-radius: 50px;
     
     .player-inner {
       display: flex;
@@ -16,6 +17,7 @@
       background-color: white;
       color: lightgray;
       border: 4px solid transparent;
+      border-radius: 50px;
 
       .pending-lock {
         &.r {
@@ -30,7 +32,7 @@
         &.b {
           animation: lock_b .5s infinite alternate;
         }
-       }
+      }
     }
 
     &:not(:last-child) {

@@ -1,28 +1,17 @@
 import { useRecoilValue } from 'recoil'
 import playersAtom from '../recoil/atoms/playersAtom'
-import CONSTANTS from '../constants'
 import { FaCheckCircle, FaLock } from 'react-icons/fa'
-import { Color, Player } from '../types'
+import { Player } from '../types'
 import playerCardAtom from '../recoil/selectors/playerCardAtom'
 import getPointRange from '../helpers/getPointRange'
-
-const Lock = ({ color: { key, color }, pending, locked }: { color: Color, pending: string[], locked: string[] }) => {
-  const props = locked.includes(key)
-    ? { color }
-    : pending.includes(key)
-      ? { className: ['pending-lock', key].join(' ') }
-      : {}
-  
-  return <FaLock {...props} size={14} />
-}
+import colorsAtom from '../recoil/selectors/colorsAtom'
 
 const PlayerCard = ({ player, index }: { player: Player, index: number}) => {
-  const { color } = CONSTANTS.BASE_COLORS[(index + 2) % 4]
+  const { baseColors } = useRecoilValue(colorsAtom)
+  const { color } = baseColors[(index + 2) % 4]
   const {
     score,
     penalties,
-    lockedLocks,
-    pendingLocks,
     isActivePlayer,
     isCurrentPlayer,
     isPlayerReady,
@@ -53,8 +42,8 @@ const PlayerCard = ({ player, index }: { player: Player, index: number}) => {
             ))}
           </div>
           <div style={{ marginLeft: 16 }} />
-          {CONSTANTS.BASE_COLORS.map(color => (
-            <Lock key={color.key} color={color} locked={lockedLocks} pending={pendingLocks} />
+          {baseColors.map(color => (
+            <FaLock key={color.key} color={color.color} />
           ))}
         </div>
       </div>

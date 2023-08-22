@@ -1,7 +1,6 @@
 import { selector } from 'recoil';
 import playerScoreCardsMapAtom from './playerScoreCardsMapAtom';
-import CONSTANTS from '../../constants';
-import isColorLockedAtom from './isColorLockedAtom';
+import lockedColorsAtom from './lockedColorsAtom';
 
 const MAX_LOCK = 2
 const MAX_PENALTY = 4
@@ -9,9 +8,7 @@ const MAX_PENALTY = 4
 const isGameOverAtom = selector({
   key: 'isGameOverAtom',
   get: ({ get }) => {
-    const isColorLocked = get(isColorLockedAtom)
-
-    if (CONSTANTS.BASE_COLORS.filter(isColorLocked).length >= MAX_LOCK) {
+    if (get(lockedColorsAtom).length >= MAX_LOCK) {
       return true
     }
     

@@ -3,8 +3,7 @@ type color = 'w' | 'r' | 'y' | 'g' | 'b' | 'p'
 export type Color = {
   key: color
   color: string
-  isWild?: true
-  reverse?: true
+  lockValue: 0 | 2 | 12
 }
 
 export type PointBox = {

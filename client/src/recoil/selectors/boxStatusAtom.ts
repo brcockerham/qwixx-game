@@ -3,12 +3,12 @@ import scoreCardMapAtom from './scoreCardMapAtom'
 import currentAnswersAtom from './currentAnswersAtom'
 import currentTurnMapAtom from './currentTurnMapAtom'
 import maxSelectedAtom from './maxSelectedAtom'
-import CONSTANTS from '../../constants'
 import playerScoreCardsMapAtom from './playerScoreCardsMapAtom'
 import currentTurnAtom from '../atoms/currentTurnAtom'
 import isActivePlayerAtom from './isActivePlayerAtom'
 import turnStatusAtom, { TurnStatus } from '../atoms/turnStatusAtom'
 import userIdAtom from './userIdAtom'
+import colorsAtom from './colorsAtom'
 
 const boxStatusAtom = selectorFamily({
   key: 'boxStatusAtom',
@@ -41,16 +41,16 @@ const boxStatusAtom = selectorFamily({
     const maxSelected = get(maxSelectedAtom)
     const playerScoreCards = get(playerScoreCardsMapAtom).get(key)
     
-    const reverse = CONSTANTS.COLORS_MAP.get(key)?.reverse
+    const lockValue = get(colorsAtom).colorMap.get(key)!.lockValue
 
-    const isLock = reverse ? value === 2 : value === 12
+    const isLock = value === lockValue
     const canLock = isLock
       ? ((scoreCard?.length || 0) + (currentTurn?.length || 0)) >= 5
       : true
 
       const invalid = !currentAnswers.get(key)?.has(value)
-      const isLocked = reverse ? playerScoreCards?.includes(2) : playerScoreCards?.includes(12)
-      const voided = isLocked || scoreCard?.some(n => (reverse ? n : value) < (reverse ? value : n)) || false
+      const isLocked = playerScoreCards?.includes(lockValue)
+      const voided = isLocked || scoreCard?.some(n => n < (lockValue * (lockValue === 2 ? 1 : -1))) || false
     
     return {
       selected: currentTurnSelected || scoreCardSelected,

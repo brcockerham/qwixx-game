@@ -11,6 +11,8 @@ import useWebSocket from '../hooks/useWebSocket'
 import { DieContainerRef } from 'react-dice-complete/dist/DiceContainer'
 import copy from 'copy-to-clipboard'
 import { useState } from 'react'
+import { FaCheck } from 'react-icons/fa'
+import { GiPerspectiveDiceSixFacesSix } from 'react-icons/gi'
 
 const PlayerActions = ({ diceRef }: ActionsProps) => {
   const { sendJsonMessage } = useWebSocket()
@@ -29,7 +31,7 @@ const PlayerActions = ({ diceRef }: ActionsProps) => {
   if (!isRollDisabled) {
     return (
       <button onClick={() => diceRef.current?.rollAll()} >
-        roll
+        roll {<GiPerspectiveDiceSixFacesSix />}
       </button>
     )
   }
@@ -74,17 +76,15 @@ const PlayAgainAction = () => {
 
 const InviteAction = () => {
   const [linkCopied, setLinkCopied] = useState(false)
-  const text = linkCopied ? 'Link Copied!' : 'Invite Others'
 
   return (
     <button
-      disabled={linkCopied}
       onClick={() => {
         copy(window.location.href)
         setLinkCopied(true)
       }}
     >
-      {text}
+      Copy Link {linkCopied && <FaCheck size={16} />}
     </button>
   )
 }

@@ -1,14 +1,14 @@
 import { useState } from 'react'
 import getRandomInt from '../helpers/getRandomInt'
 import useWebSocket from '../hooks/useWebSocket'
-import localStorageUtil from '../utils/localStorageUtil'
+import storageUtil from '../utils/storageUtil'
 
 const LogIn = () => {
   const { sendJsonMessage } = useWebSocket()
-  const [userName, setUserName] = useState(localStorageUtil.get('userName') || '')
+  const [userName, setUserName] = useState(storageUtil.localStorage.get('userName') || '')
 
   const handleLogIn = (() => {
-    localStorageUtil.set('userName', userName)
+    storageUtil.localStorage.set('userName', userName)
     sendJsonMessage({ userName, order: getRandomInt(1, 100) })
   })
 

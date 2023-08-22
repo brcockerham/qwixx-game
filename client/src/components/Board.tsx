@@ -1,11 +1,11 @@
 import { useCallback } from 'react';
 import { FaUnlockAlt, FaCheck, FaCheckDouble } from "react-icons/fa";
-import CONSTANTS from '../constants';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { Color, PointBox } from '../types';
 import getPointRange from '../helpers/getPointRange';
 import boxStatusAtom from '../recoil/selectors/boxStatusAtom';
 import currentTurnAtom from '../recoil/atoms/currentTurnAtom';
+import colorsAtom from '../recoil/selectors/colorsAtom';
 
 type PointsContainerProps = {
   color: Color
@@ -64,7 +64,7 @@ const PointsContainer = ({
 
   return (
     <div style={{ backgroundColor: color.color }} className="PointsContainer">
-      {getPointRange(2, 12, color.reverse).map(value => (
+      {getPointRange(2, 12, color.lockValue === 2).map(value => (
         <ScoreBox key={value} value={value} color={color} onSelect={onSelect} />
       ))}
     </div>
@@ -114,10 +114,11 @@ const PenaltyContainer = () => {
 }
 
 const Board = () => {
+  const { baseColors } = useRecoilValue(colorsAtom)
 
   return (
     <div className="Board">
-      {CONSTANTS.BASE_COLORS.map(color => <PointsContainer key={color.key} color={color} />)}
+      {baseColors.map(color => <PointsContainer key={color.key} color={color} />)}
       <PenaltyContainer />
     </div>
   )
