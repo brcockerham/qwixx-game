@@ -6,11 +6,12 @@ import scoreCardsAtom from '../atoms/scoreCardsAtom';
 import numCompleteTurnsAtom from './numCompleteTurnsAtom';
 import turnStatusAtom, { TurnStatus } from '../atoms/turnStatusAtom';
 import activePlayerAtom from './activePlayerAtom';
-import isActivePlayerAtom from './isActivePlayerAtom';
 import diceMapAtom from './diceMapAtom';
 import lockedColorsAtom from './lockedColorsAtom';
 import isGameOverAtom from './isGameOverAtom';
 import colorsAtom from './colorsAtom';
+import getPointRange from '../../helpers/getPointRange';
+import isGameStartedAtom from '../atoms/isGameStartedAtom';
 
 const scoreValues = getScoreValues()
 
@@ -38,9 +39,10 @@ const pendingLocksAtom = selectorFamily({
     const diceMap = get(diceMapAtom)
     const unlockedColors = get(unlockedColorsAtom)
     const isGameOver = get(isGameOverAtom)
+    const iGameStarted = get(isGameStartedAtom)
     const isPlayerReady = get(isPlayerReadyAtom(userId))
 
-    if (isPlayerReady || isGameOver) {
+    if (!iGameStarted || isPlayerReady || isGameOver) {
       return
     }
 
@@ -52,29 +54,33 @@ const pendingLocksAtom = selectorFamily({
       const currentTotal = currentScores.length
       const colorValue = diceMap.get(key)![0]
 
+      if (currentTotal < 4) {
+        return false
+      }
+
       const min = Math.min(...currentScores)
       const max = Math.max(...currentScores)
 
-      const wildMatch = lockValue === 2
-        ? wildTotal < min
-        : wildTotal > max
+      const validAnswers = new Set([
+        wildTotal,
+        ...wildValue.map(singleValue => singleValue + colorValue),
+      ])
 
-      const colorMatch = wildValue.some(value => {
-        const total = value + colorValue
+      const numbersLeft = new Set((lockValue === 2
+        ? getPointRange(lockValue, min - 1)
+        : getPointRange(max + 1, lockValue))
+          .filter(value => validAnswers.has(value)))
 
-        return lockValue === 2
-          ? total < min
-          : lockValue === 12 && total > max
-      })
+      if (!numbersLeft.size || !numbersLeft.has(lockValue)) {
+        return false
+      }
 
       if (isActivePlayer && currentTotal === 4) {
-        return wildMatch && colorMatch
+        return numbersLeft.size >= 2
       } 
       
       if (currentTotal >= 5) {
-        return isActivePlayer
-          ? wildMatch || colorMatch
-          : wildMatch
+        return isActivePlayer || numbersLeft.has(wildTotal)
       }
 
       return false

@@ -10,7 +10,7 @@ window.onhashchange = () => {
 }
 
 if (!window.location.hash) {
-  window.location.hash = nanoid()
+  window.location.hash = nanoid(5)
 }
 
 const root = ReactDOM.createRoot(

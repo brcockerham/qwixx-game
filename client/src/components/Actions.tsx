@@ -13,6 +13,7 @@ import copy from 'copy-to-clipboard'
 import { useState } from 'react'
 import { FaCheck } from 'react-icons/fa'
 import { GiPerspectiveDiceSixFacesSix } from 'react-icons/gi'
+import getGameId from '../utils/getGameId'
 
 const PlayerActions = ({ diceRef }: ActionsProps) => {
   const { sendJsonMessage } = useWebSocket()
@@ -80,7 +81,7 @@ const InviteAction = () => {
   return (
     <button
       onClick={() => {
-        copy(window.location.href)
+        copy(`${window.location.origin}/#${getGameId()}`)
         setLinkCopied(true)
       }}
     >

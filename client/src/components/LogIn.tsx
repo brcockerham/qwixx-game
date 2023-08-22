@@ -8,7 +8,9 @@ const LogIn = () => {
   const [userName, setUserName] = useState(storageUtil.localStorage.get('userName') || '')
 
   const handleLogIn = (() => {
-    storageUtil.localStorage.set('userName', userName)
+    if (userName) {
+      storageUtil.localStorage.set('userName', userName)
+    }
     sendJsonMessage({ userName, order: getRandomInt(1, 100) })
   })
 

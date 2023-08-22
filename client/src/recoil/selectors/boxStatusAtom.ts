@@ -9,11 +9,12 @@ import isActivePlayerAtom from './isActivePlayerAtom'
 import turnStatusAtom, { TurnStatus } from '../atoms/turnStatusAtom'
 import userIdAtom from './userIdAtom'
 import colorsAtom from './colorsAtom'
+import { PointBox } from '../../types'
 
 const boxStatusAtom = selectorFamily({
   key: 'boxStatusAtom',
   get: (pointBox: string) => ({ get }) => {
-    const { key, value } = JSON.parse(pointBox)
+    const { key, value }: PointBox = JSON.parse(pointBox)
     const isPenalty = key === 'p'
 
     const currentTurn = get(currentTurnMapAtom).get(key) 

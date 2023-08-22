@@ -8,8 +8,8 @@ const lockedColorsAtom = selector({
     const playerScoreCardsMap = get(playerScoreCardsMapAtom)
 
     return get(colorsAtom)
-      .baseColors
-      .filter(({ key, lockValue }) => playerScoreCardsMap.get(key)?.includes(lockValue))
+    .baseColors
+    .filter(({ key, lockValue }) => playerScoreCardsMap.get(key)?.includes(lockValue))
   }
 })
 
