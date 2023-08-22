@@ -1,4 +1,4 @@
-import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil'
+import { useRecoilState, useRecoilValue } from 'recoil'
 import currentTurnAtom from '../recoil/atoms/currentTurnAtom'
 import isActivePlayerAtom from '../recoil/selectors/isActivePlayerAtom'
 import isRollDisabledAtom from '../recoil/selectors/isRollDisabledAtom'
@@ -18,7 +18,6 @@ import getGameId from '../utils/getGameId'
 const PlayerActions = ({ diceRef }: ActionsProps) => {
   const { sendJsonMessage } = useWebSocket()
   const currentTurn = useRecoilValue(currentTurnAtom)
-  const resetCurrentTurn = useResetRecoilState(currentTurnAtom)
   const isActivePlayer = useRecoilValue(isActivePlayerAtom)
   const [turnStatus, setTurnStatus] = useRecoilState(turnStatusAtom)
   const isGameStarted = useRecoilValue(isGameStartedAtom)
@@ -45,7 +44,6 @@ const PlayerActions = ({ diceRef }: ActionsProps) => {
       disabled={doneDisabled} 
       onClick={() => {
         setTurnStatus(TurnStatus.DONE)
-        resetCurrentTurn()
         sendJsonMessage({ scoreCard: currentTurn })
       }}
     >

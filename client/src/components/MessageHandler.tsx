@@ -8,6 +8,8 @@ import turnStatusAtom, { TurnStatus } from '../recoil/atoms/turnStatusAtom'
 import useWebSocket from '../hooks/useWebSocket'
 import { Player, PointBox } from '../types'
 import { useEffect } from 'react'
+import currentTurnAtom from '../recoil/atoms/currentTurnAtom'
+import userIdAtom from '../recoil/selectors/userIdAtom'
 
 type Message = {
   userId?: string
@@ -19,6 +21,7 @@ type Message = {
 }
 
 const MessageHandler = () => {
+  const userId = useRecoilValue(userIdAtom)
   const setPlayers = useSetRecoilState(playersAtom)
   const setDice = useSetRecoilState(diceAtom)
   const setScoreCards = useSetRecoilState(scoreCardsAtom)
@@ -27,6 +30,7 @@ const MessageHandler = () => {
   const setTurnStatus = useSetRecoilState(turnStatusAtom)
   const resetDice = useResetRecoilState(diceAtom)
   const resetScoreCards = useResetRecoilState(scoreCardsAtom)
+  const resetCurrentTurn = useResetRecoilState(currentTurnAtom)
 
   useEffect(() => {
     setTurnStatus(TurnStatus.WAIT)
@@ -60,7 +64,11 @@ const MessageHandler = () => {
           setDice(message.dice)
           return
         }
-  
+
+        if (userId === message.userId) {
+          resetCurrentTurn()
+        }
+
         return setScoreCards(currVal => message.scoreCard && message.userId ? ({
           ...currVal,
           [message.userId]: [...(currVal[message.userId] || []), message.scoreCard]
