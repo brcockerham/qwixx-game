@@ -13,7 +13,7 @@ const Lock = ({ color: { key, color }, pending, locked }: { color: Color, pendin
       ? { className: ['pending-lock', key].join(' ') }
       : {}
   
-  return <FaLock {...props} />
+  return <FaLock {...props} size={14} />
 }
 
 const PlayerCard = ({ player, index }: { player: Player, index: number}) => {
@@ -37,19 +37,21 @@ const PlayerCard = ({ player, index }: { player: Player, index: number}) => {
       }}
     >
       <div className="player-inner" style={{ color, ...isActivePlayer && { borderColor: color } }}>
-        <div style={{ margin: 16, display: 'flex' }}>
+        <div style={{ margin: 8, display: 'flex' }}>
           <FaCheckCircle color={isPlayerReady ? color : 'lightgray'} />
         </div>
-        <div style={{ margin: 16, width: '60%' }}>
+        <div style={{ flexGrow: 1 }}>
           {player.userName}{isCurrentPlayer ? ' (you)' : ''}
         </div>
-        <div style={{ margin: 16, width: '10%' }}>
-        {score > 0 ? `+${score}` : score}
+        <div style={{ margin: 8, textAlign: 'right' }}>
+          {score > 0 ? `+${score}` : score}
         </div>
-        <div style={{ margin: 16, width: '30%', textAlign: 'right', color: 'lightgray' }}>
-          {getPointRange(1, 4, true).map(value => (
-            <span key={value} style={{ ...penalties?.includes(value) && { color }}}>X</span>
-          ))}
+        <div style={{ margin: 8, textAlign: 'right', color: 'lightgray' }}>
+          <div style={{ display: 'flex', textAlign: 'center' }}>
+            {getPointRange(1, 4, true).map(value => (
+              <span key={value} style={{ ...penalties?.includes(value) && { color }, minWidth: 14 }}>X</span>
+            ))}
+          </div>
           <div style={{ marginLeft: 16 }} />
           {CONSTANTS.BASE_COLORS.map(color => (
             <Lock key={color.key} color={color} locked={lockedLocks} pending={pendingLocks} />

@@ -37,9 +37,9 @@ const App = () => {
     <AppContainer>
       <Dice ref={diceRef} />
       <Board />
-      <Players />
       <Actions diceRef={diceRef} />
       {isGameOver && <div style={{ textAlign: 'center', margin: 16, fontSize: 'x-large' }}>Game Over</div>}
+      <Players />
     </AppContainer>
   )
 }

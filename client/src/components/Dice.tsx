@@ -81,6 +81,7 @@ const Dice = forwardRef((_, ref) => {
           defaultRoll={index + 1}
           dieCornerRadius={8}
           margin={2}
+          dieSize={52}
           rollTime={appLoaded.loaded ? 1 : 0}
         />
       ))}

@@ -3,6 +3,15 @@ import './styles/index.scss';
 import reportWebVitals from './reportWebVitals';
 import { RecoilRoot } from 'recoil';
 import App from './App';
+import { nanoid } from 'nanoid';
+
+window.onhashchange = () => {
+  window.location.reload()
+}
+
+if (!window.location.hash) {
+  window.location.hash = nanoid()
+}
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
