@@ -34,32 +34,51 @@ const pendingLocksAtom = selectorFamily({
   key: 'pendingLocksAtom',
   get: (userId: string) => ({ get }) => {
     const scoreCardMap = get(scoreCardMapAtom(userId))
-    const scoreCardEntries = [...scoreCardMap.entries()]
-    const isPlayerReady = get(isPlayerReadyAtom(userId))
     const isActivePlayer = userId === get(activePlayerAtom)?.userId
     const diceMap = get(diceMapAtom)
     const unlockedColors = get(unlockedColorsAtom)
     const isGameOver = get(isGameOverAtom)
+    const isPlayerReady = get(isPlayerReadyAtom(userId))
 
-    if (isGameOver) {
-      return []
+    if (isPlayerReady || isGameOver) {
+      return
     }
 
-    const wildValue = diceMap.get('w')
-    const wildTotal = wildValue?.reduce((p, c) => p + c, 0)
+    const wildValue = diceMap.get('w')!
+    const wildTotal = wildValue.reduce((p, c) => p + c, 0)
 
-    if (isActivePlayer) {
+    return unlockedColors.filter(({ key, lockValue }) => {
+      const currentScores = scoreCardMap.get(key) || []
+      const currentTotal = currentScores.length
+      const colorValue = diceMap.get(key)![0]
 
-    }
+      const min = Math.min(...currentScores)
+      const max = Math.max(...currentScores)
 
-    if (!isActivePlayer && (wildTotal === 2 || wildTotal === 12)) {
-      return unlockedColors.filter(({ key, lockValue }) => {
-        const hasMinimum = (scoreCardMap.get(key)?.length || 0) >= 5
-        const canLock = wildTotal === lockValue
-        return hasMinimum && canLock
+      const wildMatch = lockValue === 2
+        ? wildTotal < min
+        : wildTotal > max
+
+      const colorMatch = wildValue.some(value => {
+        const total = value + colorValue
+
+        return lockValue === 2
+          ? total < min
+          : lockValue === 12 && total > max
       })
-    }
-    
+
+      if (isActivePlayer && currentTotal === 4) {
+        return wildMatch && colorMatch
+      } 
+      
+      if (currentTotal >= 5) {
+        return isActivePlayer
+          ? wildMatch || colorMatch
+          : wildMatch
+      }
+
+      return false
+    }).map(({ key }) => key)
   }
 })
 
@@ -97,7 +116,7 @@ const playerCardAtom = selectorFamily({
     const isPlayerReady = get(isPlayerReadyAtom(userId))
     
 
-    const pendingLocks = Object.keys(counts).filter(key => counts[key] >= 5)
+    const pendingLocks = get(pendingLocksAtom(userId))
 
     return {
       score,

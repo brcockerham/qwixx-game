@@ -10,10 +10,6 @@ const persistEffect = <T>(key: string): AtomEffect<T> => ({ setSelf, onSet }) =>
   onSet((newValue, _, isReset) => {
     const currentValue = storageUtil.sessionStorage.get()
 
-    console.log('currentValue', currentValue)
-    console.log('key', key)
-    console.log('newValue', newValue)
-
     if (isReset) {
       delete currentValue[key]
       return storageUtil.sessionStorage.set(currentValue)

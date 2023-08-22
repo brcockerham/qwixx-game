@@ -21,16 +21,16 @@
 
       .pending-lock {
         &.r {
-          animation: lock_r .5s infinite alternate;
+          animation: lock_r 1s infinite alternate;
         }
         &.y {
-          animation: lock_y .5s infinite alternate;
+          animation: lock_y 1s infinite alternate;
         }
         &.g {
-          animation: lock_g .5s infinite alternate;
+          animation: lock_g 1s infinite alternate;
         }
         &.b {
-          animation: lock_b .5s infinite alternate;
+          animation: lock_b 1s infinite alternate;
         }
       }
     }

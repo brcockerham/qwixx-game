@@ -15,6 +15,8 @@ const PlayerCard = ({ player, index }: { player: Player, index: number}) => {
     isActivePlayer,
     isCurrentPlayer,
     isPlayerReady,
+    lockedLocks,
+    pendingLocks,
   } = useRecoilValue(playerCardAtom(player.userId))
 
   return (
@@ -43,7 +45,11 @@ const PlayerCard = ({ player, index }: { player: Player, index: number}) => {
           </div>
           <div style={{ marginLeft: 16 }} />
           {baseColors.map(color => (
-            <FaLock key={color.key} color={color.color} />
+            <FaLock
+              key={color.key}
+              className={pendingLocks?.includes(color.key) ? `pending-lock ${color.key}` : undefined}
+              color={lockedLocks.includes(color.key) ? color.color : undefined}
+            />
           ))}
         </div>
       </div>

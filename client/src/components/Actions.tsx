@@ -31,7 +31,7 @@ const PlayerActions = ({ diceRef }: ActionsProps) => {
   if (!isRollDisabled) {
     return (
       <button onClick={() => diceRef.current?.rollAll()} >
-        roll {<GiPerspectiveDiceSixFacesSix />}
+        your turn! {<GiPerspectiveDiceSixFacesSix />}
       </button>
     )
   }

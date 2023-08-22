@@ -50,7 +50,7 @@ const boxStatusAtom = selectorFamily({
 
       const invalid = !currentAnswers.get(key)?.has(value)
       const isLocked = playerScoreCards?.includes(lockValue)
-      const voided = isLocked || scoreCard?.some(n => n < (lockValue * (lockValue === 2 ? 1 : -1))) || false
+      const voided = isLocked || scoreCard?.some(n => (lockValue === 2 ? n : value) < (lockValue === 2 ? value : n)) || false
     
     return {
       selected: currentTurnSelected || scoreCardSelected,
