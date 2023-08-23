@@ -23,6 +23,7 @@ const job = new CronJob(
       // delete games created over an hour ago and have not started
       // delete all games created over a day ago
       if ((gameTime < oneHourAgo && !start) || gameTime < oneDayAgo) {
+        console.log('deleting game ', gameId)
         delete games[gameId]
       }
     }
@@ -151,6 +152,33 @@ wss.on('connection', (connection, req) => {
 const app = express()
 
 app.use(express.static(path.join(__dirname, 'client', 'build')))
+
+const formatGames = () => {
+  return Object.keys(games).map(gameId => {
+    const { players, start, date } = games[gameId]
+
+    return {
+      gameId,
+      players,
+      start,
+      date,
+    }
+  })
+}
+
+app.get('/games', (req, res) => {
+  res.json(formatGames())
+})
+
+app.delete('/games/:gameIds', (req, res) => {
+  const gameIds = req.params.gameIds.split(',')
+
+  gameIds.forEach(gameId => {
+    delete games[gameId]
+  })
+
+  res.json(formatGames())
+})
 
 app.get('/*', (req, res) => {
   res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'))
