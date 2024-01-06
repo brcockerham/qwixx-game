@@ -9,6 +9,7 @@ import useWebSocket from '../hooks/useWebSocket'
 import appLoaded from '../utils/appLoaded'
 import colorsAtom from '../recoil/selectors/colorsAtom'
 import { Color } from '../types'
+import '../styles/react-dice-complete.scss';
 
 type DieProps = ReactDiceProps & {
   setRef: (ref: ReactDiceRef) => void
